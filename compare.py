@@ -384,8 +384,8 @@ def run():
     project = urllist.project
     print(project)
 
-    #c = Compare(urllist.project, pages)
-    #c.loopPages()
+    c = Compare(urllist.project, pages)
+    c.loopPages()
 
     d = calcDiff(urllist.project)
     d.sortImg()
