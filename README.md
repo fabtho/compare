@@ -2,8 +2,9 @@
 
 ## url.txt format
 
-first line: projectname
-following lines: urls to grap
+ * first line: projectname
+ * following lines: urls to grab
+
 
 ## start
 python compare.py
