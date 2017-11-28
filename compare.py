@@ -118,8 +118,7 @@ class Compare():
             self.browser.get(self.url)
             time.sleep(self.sleep)
             self.shot()
-        self.browser.quit()
-
+        
     def fname(self):
         url = urlparse(self.url)
         par = parse_qs(url.query)
