@@ -94,13 +94,13 @@ class urlList():
 
 
 class Compare():
-    def __init__(self, project,  pages):
+    def __init__(self, project,  pages, width = 1280):
         #profile = webdriver.FirefoxProfile()
         #print (profile
         # profile.set_preference('browser.window.width', 1024)
         # profile.set_preference('browser.window.height', 300)
         # profile.update_preferences()
-        self.width = 1280
+        self.width = width
         self.viewportonly = True
         self.storage = 'data'
         self.project = project
@@ -119,6 +119,9 @@ class Compare():
             time.sleep(self.sleep)
             self.shot()
         
+    def extractT3Uid(self):
+        return True
+
     def fname(self):
         url = urlparse(self.url)
         par = parse_qs(url.query)
@@ -153,6 +156,8 @@ class Compare():
             port = url.port
         else:
             port = 80
+
+            
         mkdir = '{}/{}'.format(self.storage, self.project)
         if not os.path.exists(mkdir):
             os.makedirs(mkdir)
@@ -384,6 +389,8 @@ def run():
     print(project)
 
     c = Compare(urllist.project, pages)
+    c.loopPages()
+    c = Compare(urllist.project, pages, 360)
     c.loopPages()
 
     d = calcDiff(urllist.project)
