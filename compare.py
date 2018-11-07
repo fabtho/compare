@@ -30,7 +30,7 @@ class urlList():
     def __init__(self):
         self.pages = []
         self.project = ''
- 
+
     def readFile(self, fname):
         f = open(fname, 'r')
         for line in f:
@@ -38,7 +38,7 @@ class urlList():
                 self.project = line.rstrip()
             else:
                 self.pages.append(line.rstrip())
-        
+
         print(self.pages)
 
         return self.pages
@@ -83,7 +83,7 @@ class urlList():
         pids = [45, 344, 24, 51, 356, 819, 250, 904, 960, 364, 367, 365, 366, 368, 369, 363, 63, 64, 65, 67, 66, 157, 777, 824, 825, 826, 827, 96, 98, 99, 97, 851, 882, 516, 850, 965, 966, 712, 922, 793, 718, 702, 788, 908, 934, 935, 818, 790, 959, 874, 831, 789, 517, 873, 906, 715, 490, 787, 907, 491, 932, 884, 902, 713, 945, 927, 714, 485, 875, 876, 474, 504, 297, 299, 508, 809, 892, 300, 301, 734, 302, 303, 916, 304, 729, 305, 731, 307, 308, 774, 896, 754, 309, 844, 475, 898, 311, 497, 499, 312, 481, 313, 706, 298, 707, 314, 723, 315, 316, 495, 942, 317, 964, 812, 924, 894, 911, 319, 762, 846, 946, 320, 321, 954, 808, 900, 733, 766, 487, 509, 905, 322, 871, 958, 725, 889, 944, 918, 811, 323, 816, 325, 327, 328, 814, 329, 938, 813, 949, 727, 817, 330, 887, 333, 870, 181, 719, 482, 340, 36, 33, 35, 743, 936, 39, 143, 21, 968, 750, 44, 969, 41, 42, 43, 744, 137, 973, 923, 134, 133, 140, 346, 17, 19, 18, 32, 296, 249, 183, 184, 185, 186, 187, 188, 198, 190, 193 ]
         pids = [45, 344, 24, 51, 356, 819, 250, 904, 960]
 
-        # self.project = self.baseurl        
+        # self.project = self.baseurl
         for i in pids:
             self.pages.append('https://%s/index.php?id=%s' % (self.baseurl, i))
             for l in lang:
@@ -92,11 +92,10 @@ class urlList():
 
 
 
-
 class Compare():
-    def __init__(self, project,  pages, width = 1280):
-        #profile = webdriver.FirefoxProfile()
-        #print (profile
+    def __init__(self, project,  pages, width=1280):
+        # profile = webdriver.FirefoxProfile()
+        # print (profile
         # profile.set_preference('browser.window.width', 1024)
         # profile.set_preference('browser.window.height', 300)
         # profile.update_preferences()
@@ -109,8 +108,8 @@ class Compare():
 
         self.fields = []
         self.pages = pages
-        self.sleep = 0.5
-        print ('Duration: {}s'.format(len(pages) * self.sleep ) )
+        self.sleep = 1
+        print ('Duration: {}s'.format(len(pages) * self.sleep))
 
     def loopPages(self):
         for p in self.pages:
@@ -118,7 +117,8 @@ class Compare():
             self.browser.get(self.url)
             time.sleep(self.sleep)
             self.shot()
-        
+        # self.close()
+
     def extractT3Uid(self):
         return True
 
@@ -132,6 +132,10 @@ class Compare():
         path = path.replace('/', '', 1)
         for i in ['.', '/']:
             path = path.replace(i, '_')
+
+        print (path)
+
+        # sys.exit()
 
         uid = path
 
@@ -157,12 +161,11 @@ class Compare():
         else:
             port = 80
 
-            
         mkdir = '{}/{}'.format(self.storage, self.project)
         if not os.path.exists(mkdir):
             os.makedirs(mkdir)
 
-        name = '{}/{}/{}-{}_{}_{}.{}'.format(self.storage, self.project, uid, tstmp, port, self.width, 'png')
+        name = '{}/{}/{}-{}_{}.{}'.format(self.storage, self.project, uid, self.width, tstmp, 'png')
         print (name)
 
         return name
@@ -170,7 +173,6 @@ class Compare():
     def shot(self):
         fname = self.fname()
         self.browser.save_screenshot(fname)
-
 
     def subscribe(self, fields=[]):
 
@@ -180,7 +182,7 @@ class Compare():
             elem = self.browser.find_element_by_id(i)
             if i == 'mailformemail':
                 elem.send_keys('ft@taywa.ch')
-            else:    
+            else:
                 elem.send_keys(i)
         self.fillMail()
         # elem = self.browser.find_element_by_id('email')
@@ -200,20 +202,19 @@ class Compare():
         mail = self.mail()
         elem.send_keys(mail)
 
-
     def close(self):
         self.browser.close()
 
 
 class browser():
 
-    def __init__(self, width = 1200, viewportonly = True):
+    def __init__(self, width=1200, viewportonly=True):
         self.temppath = '/tmp/'
         self.viewportonly = viewportonly
         profile = webdriver.FirefoxProfile('/home/m/.mozilla/firefox/7opu4o1o.silenium/')
         self.browser = webdriver.Firefox(profile)
         self.width = width
-        self.height = 1000
+        self.height = 1100
         self.browser.set_window_position(0, 0)
         self.browser.set_window_size(self.width, self.height)
         self.verbose = 0
@@ -225,9 +226,7 @@ class browser():
         self.browser.close()
 
     def save_screenshot(self, path, force=False):
-    
         if not os.path.exists(path) or force:
-            
 
             if self.viewportonly is True:
                 screenshot = Image.open(io.BytesIO(self.browser.get_screenshot_as_png()))
@@ -272,7 +271,7 @@ class browser():
                     offset += img.size[1]
                     slices.append(img)
 
-                    self.browser.get_screenshot_as_file('%s/screen_%s.png' % (self.temppath , offset))
+                    self.browser.get_screenshot_as_file('%s/screen_%s.png' % (self.temppath, offset))
 
                 screenshot = Image.new('RGB', (slices[0].size[0], scrollheight))
                 offset = 0
@@ -284,31 +283,35 @@ class browser():
 
 
 class calcDiff():
-    def __init__(self, project):
+    def __init__(self, project, width=1280):
         self.project = project
         self.storage = 'data'
+        self.width = str(width) 
 
     def readAllImg(self):
         folder = '{}/{}'.format(self.storage, self.project)
         for subdir, dirs, files in os.walk(folder):
-            files = [ fi for fi in files if not fi.endswith(".jpg") ]
+            files = [ fi for fi in files if fi.find(self.width) > 0 and not fi.endswith(".jpg") ]
             self.files = files
             print(files)
+            print(self.width)
             return files
             # for file in files:
                 # print (os.path.join(subdir, file)    
 
     def sortImg(self):
         files = self.readAllImg()
-        #pages = {}
+        # pages = {}
         pages = defaultdict(list)
         for f in files:
-            pid = f.split('-')[0]
-            #pages[pid] = pages[pid].append(f)
+            # pid = f.split('-')[0]
+            pid = f.split('__1-')[0]
+            # pages[pid] = pages[pid].append(f)
             pages[pid].append(f)
 
         self.pages = pages
         print (pages)
+        #sys.exit()
 
     def diffPages(self):
         print (self.pages)
@@ -345,6 +348,7 @@ class calcDiff():
             if not self.equal(diff):
                 # save diff file  
                 diff.save(fname)
+                '''
                 rect = diff.getbbox()
                 crop = diff.crop(rect)
                 # save rect on changed rect
@@ -369,6 +373,7 @@ class calcDiff():
                 except:
                     # raise
                     pass
+                '''    
                 # invert = ImageOps.invert(crop)
                 #crop.save(self.project + os.sep + first +'_'+second+'_crop.jpg')
         #rms =  math.sqrt(reduce(operator.add, map(lambda h, i: h*(i**2), h, range(256))) / (float(im1.size[0]) * im1.size[1]))
@@ -388,12 +393,26 @@ def run():
     project = urllist.project
     print(project)
 
+    c = Compare(urllist.project, pages, 1600)
+    c.loopPages()
+
     c = Compare(urllist.project, pages)
+    c.loopPages()
+    c = Compare(urllist.project, pages, 640)
     c.loopPages()
     c = Compare(urllist.project, pages, 360)
     c.loopPages()
 
+    d = calcDiff(urllist.project, 1600)
+    d.sortImg()
+    d.diffPages()
     d = calcDiff(urllist.project)
+    d.sortImg()
+    d.diffPages()
+    d = calcDiff(urllist.project, 640)
+    d.sortImg()
+    d.diffPages()
+    d = calcDiff(urllist.project, 360)
     d.sortImg()
     d.diffPages()
 
