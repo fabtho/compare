@@ -6,29 +6,29 @@
  * following lines: urls to grab
 
 
-### beispiel url.txt
+## beispiel url.txt
 
 dummy8.taywa.ch.txt:
 
-dummy8.taywa.ch
+```dummy8.taywa.ch
 http://dummy8.taywa.ch/home/
 http://dummy8.taywa.ch/weiterbildung/
 http://dummy8.taywa.ch/ph-schwyz/
 http://dummy8.taywa.ch/ausbildung/kontakte/
 http://dummy8.taywa.ch/ausbildung/mentorinnen-und-mentoren/
-
+```
 dannach mit nochmals laufen oder zweite url.txt machen
 
 
 dummy8neu.taywa.ch.txt
 
-dummy8neu.taywa.ch
+```dummy8.taywa.ch
 http://dummy8neu.taywa.ch/home/
 http://dummy8neu.taywa.ch/weiterbildung/
 http://dummy8neu.taywa.ch/ph-schwyz/
 http://dummy8neu.taywa.ch/ausbildung/kontakte/
 http://dummy8neu.taywa.ch/ausbildung/mentorinnen-und-mentoren/
-
+```
 
 ich habe jeweils dafür eine softlink gemacht
 
@@ -39,16 +39,20 @@ bzw
 ln -sf dummy8neu.taywa.ch.txt url.txt
 
 
+## Datenordner anlegen
+
+mkdir data
+
+
 ## start
 python compare.py
 
 erste beim zweiten lauf werden die unterschiede berrechnet.
 
-## 
 
 
 
-
+# Alle TYPO3 URL rausziehen (notizen)
 
 ## sql statement to get recursivly id
 
